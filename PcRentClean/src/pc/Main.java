@@ -9,13 +9,16 @@ import pc.procesors.I5;
 import pc.procesors.I7;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static Procesors  procesor;
-   public static Cases obudowa;
-   public static Gpu gpu1;
-    public static void main(String[] args) throws FileNotFoundException {
+    public static Procesors procesor;
+    public static Cases obudowa;
+    public static Gpu gpu1;
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
 
 
 
@@ -38,10 +41,10 @@ public class Main {
 
         int pr = 0;
         int ca = 0;
-        int gp= 0;
+        int gp = 0;
 
-       System.out.println("Witaj w wypozyczalni komputerów PC. ");
-        do{
+        System.out.println("Witaj w wypozyczalni komputerów PC. ");
+        do {
 
 
             while (pr == 0) {
@@ -118,8 +121,8 @@ public class Main {
                 }
 
             }
-            PC pc = new PcAssembler(procesor,obudowa,gpu1);
-            printer(pc);
+            PC pc = new PcAssembler(procesor, obudowa, gpu1);
+            print(printerF(pc));
 
             System.out.println("czy chcesz dokonac zmian? jesli tak kliknij 1, jesli nie kliknij 0");
 
@@ -128,52 +131,80 @@ public class Main {
             switch (i) {
 
                 case 1:
-                     i=1;
+                    i = 1;
                     pr = 0;
                     ca = 0;
                     gp = 0;
                     break;
                 case 0:
-                    break;
+                    System.out.println("Czy chcesz wydrukowac fakture");
+                    System.out.println("1 aby potwierdzic, 0 aby nie drukowac faktury");
+
+                    int fact = si.nextInt();
+                    switch (fact) {
+                        case 1:
+                            new Facture().printFacture(printerF(pc));
+                            System.out.println("Twoja faktura znajduje sie w folcerze PcRentCelan w pliku Facture.txt");
+
+                            break;
+
+                        case 2:
+                            break;
+                        default:
+                            break;
+
+
+                    }
+
+
+
+
 
             }
-
-
-
-
-
-
-          }while(i>0);
-        
-
-
-
         }
-
-
-        public static void printer(PC name) throws FileNotFoundException{
-            System.out.println("Twoj nowy PC sklada sie z :");
-            System.out.println("Procesor (nazwa, taktowanie, generacja, cena:");
-            System.out.println(name.getModel());
-            System.out.println(name.getClock());
-            System.out.println(name.getGeneration());
-            System.out.println(name.getPrice());
-            System.out.println("Obudowa (nazwa, rozmiar, cena:");
-            System.out.println(name.getC_model());
-            System.out.println(name.getC_Size());
-            System.out.println(name.getC_Price());
-            System.out.println("Karta graficzna (nazwa, taktowanie, pamiec, cena:");
-            System.out.println(name.getG_model());
-            System.out.println(name.getG_Clock());
-            System.out.println(name.getG_Memory());
-            System.out.println(name.getG_Price());
-            int overalPrice =Integer.parseInt(name.getPrice())+ Integer.parseInt(name.getG_Price()) + Integer.parseInt(name.getC_Price());
-            System.out.println("Cena za calosc jest rowna:"+ overalPrice);
-        }
-
+        while (i > 0);
 
 
     }
+
+        public static void print (ArrayList name){
+
+            for (int i = 0; i < name.size(); i++) {
+
+                System.out.print(name.get(i) + "\n");
+            }
+
+
+        }
+
+        public static ArrayList printerF (PC name) throws FileNotFoundException {
+
+            ArrayList<String> printer = new ArrayList<String>();
+            printer.add("Twoj nowy PC sklada sie z :");
+            printer.add("Procesor (nazwa, taktowanie, generacja, cena:");
+            printer.add(name.getModel());
+            printer.add(name.getClock());
+            printer.add(name.getGeneration());
+            printer.add(name.getPrice());
+            printer.add("Obudowa (nazwa, rozmiar, cena:");
+            printer.add(name.getC_model());
+            printer.add(name.getC_Size());
+            printer.add(name.getC_Price());
+            printer.add("Karta graficzna (nazwa, taktowanie, pamiec, cena:");
+            printer.add(name.getG_model());
+            printer.add(name.getG_Clock());
+            printer.add(name.getG_Memory());
+            printer.add(name.getG_Price());
+            int overalPrice = Integer.parseInt(name.getPrice()) + Integer.parseInt(name.getG_Price()) + Integer.parseInt(name.getC_Price());
+            printer.add("Cena za calosc jest rowna:" + overalPrice);
+
+            return printer;
+        }
+
+
+    }
+
+
 
 
 
